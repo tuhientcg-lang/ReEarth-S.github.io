@@ -15,241 +15,160 @@
       --green-pale:   #d8f3dc;
       --green-wash:   #f0faf3;
       --cream:        #fdfcf7;
-      --charcoal:     #1c1e1b;
-      --muted:        #6b7a6d;
       --white:        #ffffff;
-      --shadow-sm: 0 2px 12px rgba(26,61,43,0.08);
-      --shadow-md: 0 8px 32px rgba(26,61,43,0.12);
       --shadow-lg: 0 20px 60px rgba(26,61,43,0.15);
-      --radius-sm: 12px;
-      --radius-md: 20px;
-      --radius-lg: 32px;
-      --radius-xl: 48px;
     }
+
     html { scroll-behavior: smooth; }
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--cream);
-      color: var(--charcoal);
+      color: #1c1e1b;
       overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
     }
 
-    /* ── LOGO CORE STYLING ── */
-    .logo-main {
-      height: 45px;
-      width: auto;
-      /* This removes the black background from your JPEG so it looks transparent */
-      mix-blend-mode: multiply; 
-      display: block;
+    /* ── LOGO CLIPPING & BLENDING ── */
+    .logo-box {
+      display: inline-block;
+      overflow: hidden; /* This crops the tagline */
+      mix-blend-mode: multiply; /* Removes black background on cream */
+      vertical-align: middle;
     }
+
+    .processed-logo {
+      width: 100%;
+      height: 135%; /* Scale up to push tagline out of view */
+      object-fit: cover;
+      object-position: top; /* Keep the Globe and "ReEarth" text */
+    }
+
+    .nav-logo-wrap { width: 140px; height: 45px; }
+    .hero-logo-wrap { width: 380px; height: 110px; margin-bottom: 25px; }
     
-    .logo-hero {
-      height: 140px;
-      margin: 0 auto 20px;
-      mix-blend-mode: multiply;
-      animation: fadeUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    /* Footer logo needs to be white to show on dark green */
+    .footer-logo-wrap { 
+      width: 180px; height: 55px; 
+      filter: brightness(0) invert(1); 
+      mix-blend-mode: lighten; 
     }
 
-    .logo-footer {
-      height: 70px;
-      /* Inverting colors for the dark footer so the logo pops */
-      filter: brightness(0) invert(1);
-      mix-blend-mode: lighten;
-    }
-
-    /* ── NAV ── */
+    /* ── UI ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 12px 48px;
+      padding: 15px 50px;
       background: rgba(253,252,247,0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(64,145,108,0.12);
-      transition: all 0.3s;
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(64,145,108,0.15);
     }
-    nav.scrolled { padding: 8px 48px; box-shadow: var(--shadow-sm); }
-    .nav-logo { display: flex; align-items: center; text-decoration: none; }
-    
-    .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
-    .nav-links a {
-      text-decoration: none; font-size: 0.9rem; font-weight: 500;
-      color: var(--muted); transition: color 0.2s;
+    .nav-links { display: flex; list-style: none; gap: 30px; }
+    .nav-links a { text-decoration: none; color: var(--green-mid); font-weight: 600; font-size: 0.9rem; }
+
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding-top: 100px;
+      background: radial-gradient(circle at top right, var(--green-pale), transparent);
     }
-    .nav-links a:hover { color: var(--green-mid); }
+    .hero-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      color: var(--green-deep);
+      line-height: 1.1;
+      margin-bottom: 25px;
+    }
+
+    /* ── MAP STYLING ── */
+    #map { padding: 80px 0 0; text-align: center; background: var(--green-wash); }
+    .map-container {
+      width: 100%;
+      height: 550px;
+      background: #e5e3df;
+      border-top: 4px solid var(--green-bright);
+      position: relative;
+    }
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      filter: saturate(0.8) contrast(1.1); /* Optional styling */
+    }
 
     .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 12px 28px; border-radius: 999px;
-      font-weight: 600; font-size: 0.9rem; cursor: pointer;
-      text-decoration: none; transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-      border: none;
+      padding: 16px 36px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: 0.3s;
+      display: inline-block;
     }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--green-mid) 0%, var(--green-bright) 100%);
-      color: var(--white); box-shadow: 0 6px 20px rgba(45,106,79,0.4);
-    }
-    .btn-outline {
-      background: transparent; color: var(--green-mid); border: 2px solid var(--green-light);
-    }
-    .btn-lg { padding: 16px 40px; font-size: 1rem; }
+    .btn-primary { background: var(--green-mid); color: white; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+    .btn-outline { border: 2px solid var(--green-mid); color: var(--green-mid); margin-left: 10px; }
 
-    /* ── HERO ── */
-    #hero {
-      min-height: 100vh; display: flex; align-items: center; justify-content: center;
-      position: relative; overflow: hidden; padding: 140px 24px 80px;
+    footer {
+      background: var(--green-deep);
+      padding: 60px 20px;
+      text-align: center;
+      color: white;
     }
-    .hero-bg { position: absolute; inset: 0; z-index: 0; background: var(--cream); }
-    .hero-content { position: relative; z-index: 1; text-align: center; max-width: 850px; }
     
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--white); border: 1px solid rgba(45,106,79,0.2);
-      border-radius: 999px; padding: 8px 18px; font-size: 0.8rem;
-      font-weight: 600; color: var(--green-mid); margin-bottom: 24px;
-      box-shadow: var(--shadow-sm); animation: fadeUp 0.6s 0.2s ease both;
-    }
-    .hero-badge-dot {
-      width: 7px; height: 7px; background: var(--green-bright); border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(64,145,108,0.5); } 50% { box-shadow: 0 0 0 6px rgba(64,145,108,0); } }
-
-    .hero-title {
-      font-family: 'Fraunces', serif; font-weight: 800;
-      font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.1;
-      color: var(--green-deep); margin-bottom: 24px; animation: fadeUp 0.6s 0.3s ease both;
-    }
-    .hero-subtitle {
-      font-size: 1.2rem; color: var(--muted); margin-bottom: 40px;
-      animation: fadeUp 0.6s 0.4s ease both;
-    }
-    .hero-cta { display: flex; gap: 16px; justify-content: center; animation: fadeUp 0.6s 0.5s ease both; }
-
-    /* ── SECTIONS ── */
-    section { padding: 100px 24px; }
-    .container { max-width: 1100px; margin: 0 auto; }
-    .section-eyebrow { font-size: 0.75rem; font-weight: 700; color: var(--green-bright); text-transform: uppercase; margin-bottom: 12px; display: block; }
-    .section-title { font-family: 'Fraunces', serif; font-size: 2.5rem; color: var(--green-deep); margin-bottom: 20px; }
-
-    /* ── MAP ── */
-    #map { background: var(--green-wash); padding: 80px 0 0; text-align: center; }
-    .map-wrapper { width: 100%; height: 500px; background: #eee; margin-top: 40px; }
-    .map-wrapper iframe { width: 100%; height: 100%; border: none; }
-
-    /* ── FEATURES ── */
-    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 50px; }
-    .feature-card { background: var(--white); padding: 40px; border-radius: var(--radius-lg); border: 1px solid rgba(0,0,0,0.05); transition: 0.3s; }
-    .feature-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); }
-
-    /* ── FOOTER ── */
-    footer { background: var(--green-deep); padding: 80px 24px 40px; color: var(--white); text-align: center; }
-    .footer-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 40px 0; width: 100%; }
-
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    
-    @media (max-width: 768px) {
-      .nav-links, .nav-right { display: none; }
-      nav { padding: 12px 24px; }
-    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .animate { animation: fadeUp 0.8s ease-out both; }
   </style>
 </head>
 <body>
 
-  <nav id="navbar">
-    <a href="#hero" class="nav-logo">
-      <img src="logo.jpg" alt="ReEarth Logo" class="logo-main">
+  <nav>
+    <a href="#hero" class="logo-box nav-logo-wrap">
+      <img src="logo.jpg" class="processed-logo" alt="ReEarth">
     </a>
     <ul class="nav-links">
-      <li><a href="#map">Map</a></li>
-      <li><a href="#features">Features</a></li>
-      <li><a href="#how">How It Works</a></li>
-      <li><a href="#impact">Impact</a></li>
+      <li><a href="#map">Campus Map</a></li>
+      <li><a href="#hero">Mission</a></li>
+      <li><a href="#hero">Impact</a></li>
     </ul>
-    <div class="nav-right">
-      <a href="#map" class="btn btn-outline">Find Bins</a>
-    </div>
+    <a href="#map" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.8rem;">Find Bins</a>
   </nav>
 
   <section id="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-content">
-      <img src="logo.jpg" alt="ReEarth" class="logo-hero">
-      
-      <div class="hero-badge">
-        <span class="hero-badge-dot"></span>
-        Perkiomen School Initiative
+    <div class="container animate">
+      <div class="logo-box hero-logo-wrap">
+        <img src="logo.jpg" class="processed-logo" alt="ReEarth Logo">
       </div>
-      
-      <h1 class="hero-title">
-        Bin it right,<br/>keep Earth <span style="color:var(--green-bright); font-style:italic;">bright.</span>
-      </h1>
-      
-      <p class="hero-subtitle">
-        The smart campus recycling guide. Locate bins, track your footprint,<br/>and lead the way to a sustainable future.
+      <h1 class="hero-title">Bin it right,<br/><span style="color:var(--green-bright); font-style:italic;">keep Earth bright.</span></h1>
+      <p style="color: #6b7a6d; font-size: 1.2rem; margin-bottom: 35px; max-width: 600px; margin-left: auto; margin-right: auto;">
+        Join the Perkiomen School movement. Locate recycling stations and track our collective environmental impact in real-time.
       </p>
-      
       <div class="hero-cta">
-        <a href="#map" class="btn btn-primary btn-lg">🗺️ Launch Map</a>
-        <a href="#how" class="btn btn-outline btn-lg">Our Mission</a>
+        <a href="#map" class="btn btn-primary">🗺️ Open Campus Map</a>
+        <a href="#" class="btn btn-outline">Our Mission</a>
       </div>
     </div>
   </section>
 
   <section id="map">
-    <div class="container">
-      <span class="section-eyebrow">Real-Time Locator</span>
-      <h2 class="section-title">Campus Bin Map</h2>
-      <p style="color:var(--muted); max-width: 600px; margin: 0 auto;">Never wonder where to throw your recycling again. Our interactive map highlights every station on campus.</p>
+    <div style="padding-bottom: 40px;">
+      <h2 style="font-family: 'Fraunces'; color: var(--green-deep); font-size: 2.2rem;">Campus Bin Locator</h2>
+      <p style="color: var(--muted);">Find the nearest recycling, trash, or compost station.</p>
     </div>
-    <div class="map-wrapper">
-      <iframe src="about:blank" title="Map Placeholder"></iframe>
-    </div>
-  </section>
-
-  <section id="features">
-    <div class="container">
-      <span class="section-eyebrow">Smart Tools</span>
-      <h2 class="section-title">Everything You Need</h2>
-      <div class="features-grid">
-        <div class="feature-card">
-          <h3 style="margin-bottom:15px; font-family:'Fraunces';">📍 Live Locations</h3>
-          <p style="color:var(--muted); line-height:1.6;">Updated map showing every single recycling, compost, and waste bin across campus.</p>
-        </div>
-        <div class="feature-card">
-          <h3 style="margin-bottom:15px; font-family:'Fraunces';">📊 Impact Stats</h3>
-          <p style="color:var(--muted); line-height:1.6;">See how much the Perkiomen community has saved through proper sorting.</p>
-        </div>
-        <div class="feature-card">
-          <h3 style="margin-bottom:15px; font-family:'Fraunces';">📱 Mobile First</h3>
-          <p style="color:var(--muted); line-height:1.6;">Designed to work perfectly on your phone while you're walking between classes.</p>
-        </div>
-      </div>
+    <div class="map-container">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3043.102604815598!2d-75.5902120234479!3d40.29571197142013!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c4033333333333%3A0x7d00f0f0f0f0f0f0!2sPerkiomen%20School!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus" 
+        allowfullscreen="" 
+        loading="lazy">
+      </iframe>
     </div>
   </section>
 
   <footer>
-    <div class="container">
-      <img src="logo.jpg" alt="ReEarth" class="logo-footer">
-      
-      <p style="margin-top: 20px; opacity: 0.7; font-size: 0.9rem;">
-        Created by students at <strong>Perkiomen School</strong>
-      </p>
-      
-      <div class="footer-divider"></div>
-      
-      <p style="font-size: 0.8rem; opacity: 0.5;">
-        &copy; 2026 ReEarth Initiative. All rights reserved.
-      </p>
+    <div class="logo-box footer-logo-wrap">
+      <img src="logo.jpg" class="processed-logo" alt="ReEarth">
     </div>
+    <p style="margin-top: 25px; opacity: 0.6; font-size: 0.85rem; letter-spacing: 1px;">
+      SMART RECYCLING INITIATIVE &bull; PERKIOMEN SCHOOL &bull; 2026
+    </p>
   </footer>
 
-  <script>
-    const navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 20);
-    });
-  </script>
 </body>
 </html>
